@@ -1,0 +1,29 @@
+pipeline{
+    agent any
+    tools{
+        maven 'M3'
+    }
+    stages{
+        stage ('git clone') {
+            steps{
+            git 'https://github.com/ADHI18S/frontend-learning-handson.git'
+            }
+        }
+         stage ('mvn build') {
+            steps{
+            sh 'mvn clean package'
+            }
+        }
+         stage ('docker build') {
+            steps{
+            sh 'docker build -t adhi-demo .'
+            }
+        }
+         stage ('docker run') {
+            steps{
+            sh 'docker run -t -p 9000:80'
+            }
+        }
+    }
+}
+ 
